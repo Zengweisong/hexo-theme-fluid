@@ -1,0 +1,51 @@
+<%
+page.banner_img_height = 0;
+var readingTopics = page.readingTopics || [];
+var latestReadingPosts = page.latestReadingPosts || [];
+%>
+
+<div class="portfolio-shell reading-page">
+  <header class="reading-hero">
+    <p class="section-kicker">Reading archive</p>
+    <h1>不是书单，<br><em>是思考的路径。</em></h1>
+    <p>把读过的书按主题重新组织。先找到你正在关心的问题，再进入一本具体的书。</p>
+    <dl class="reading-stats">
+      <div><dt><%= page.readingCount || 0 %></dt><dd>篇读书笔记</dd></div>
+      <div><dt><%= readingTopics.length %></dt><dd>个阅读主题</dd></div>
+    </dl>
+  </header>
+
+  <section class="reading-directory" aria-labelledby="reading-directory-title">
+    <div class="reading-section-heading">
+      <div><p class="section-kicker">Browse by topic</p><h2 id="reading-directory-title">从主题开始阅读。</h2></div>
+      <p>每个主题都是一条独立的阅读路径，进入后只会看到该方向的书籍与笔记。</p>
+    </div>
+    <div class="reading-topic-grid">
+      <% readingTopics.forEach(function(topic) { %>
+        <a class="reading-topic" href="<%= url_for(topic.path) %>" data-pressable>
+          <span class="reading-topic__symbol" aria-hidden="true"><%= topic.symbol %></span>
+          <span class="reading-topic__copy"><strong><%= topic.name %></strong><small><%= topic.description %></small></span>
+          <span class="reading-topic__count"><strong><%= topic.count %></strong><small>篇笔记</small></span>
+          <i aria-hidden="true">→</i>
+        </a>
+      <% }) %>
+    </div>
+  </section>
+
+  <section class="reading-latest" aria-labelledby="reading-latest-title">
+    <div class="reading-section-heading">
+      <div><p class="section-kicker">Recently organized</p><h2 id="reading-latest-title">最近整理的笔记。</h2></div>
+      <a class="text-link text-link--large" href="<%= url_for('/categories/读书笔记/') %>">查看全部 <%= page.readingCount || 0 %> 篇 <span aria-hidden="true">→</span></a>
+    </div>
+    <div class="latest-post-list">
+      <% latestReadingPosts.forEach(function(post) { %>
+        <article class="latest-post">
+          <div class="latest-post__meta"><time datetime="<%= full_date(post.date, 'YYYY-MM-DD') %>"><%= date(post.date, config.date_format) %></time><span><%- portfolio_categories(post) %></span></div>
+          <h3><a href="<%= url_for(post.path) %>"><%= post.title %></a></h3>
+          <p><%= portfolio_excerpt(post) %></p>
+          <a class="latest-post__arrow" href="<%= url_for(post.path) %>" aria-label="阅读 <%= post.title %>" data-pressable>→</a>
+        </article>
+      <% }) %>
+    </div>
+  </section>
+</div>

@@ -1,0 +1,180 @@
+<%
+page.banner_img_height = 0;
+var githubUrl = 'https://github.com/Zengweisong';
+var featuredProjects = page.featuredProjects || [];
+var flagshipProject = page.flagshipProject;
+var caseStudyProjects = page.caseStudyProjects || [];
+var experimentProjects = page.experimentProjects || [];
+var latestPosts = page.latestPosts || [];
+var readingTopics = page.readingTopics || [];
+var stacks = [
+  { name: 'AI', description: '把知识、模型和真实工作流连接起来。', items: ['LLM', 'RAG', 'Embedding', 'OpenAI API'], symbol: '✦' },
+  { name: 'Web', description: '从需求到上线，构建完整产品体验。', items: ['React', 'Next.js', 'TypeScript', 'Node.js'], symbol: '⌘' },
+  { name: 'Native', description: '让工具自然地进入桌面与移动场景。', items: ['React Native', 'Android', 'SwiftUI', 'Python'], symbol: '◉' },
+  { name: 'Systems', description: '可靠交付、部署与持续迭代。', items: ['Docker', 'Linux', 'MySQL', 'GitHub'], symbol: '∞' }
+];
+%>
+
+<div class="portfolio-shell portfolio-home">
+  <section class="portfolio-hero" aria-labelledby="portfolio-title">
+    <div class="hero-ambient" aria-hidden="true"><span></span><span></span></div>
+    <div class="portfolio-hero__copy">
+      <p class="availability-pill"><span></span> 正在构建有用的产品</p>
+      <h1 id="portfolio-title">把复杂，<br><em>变简单。</em></h1>
+      <p class="portfolio-hero__intro">你好，我是曾伟松。一名专注 AI 应用与全栈产品的独立开发者，把真实需求做成清晰、可靠、令人愉悦的工具。</p>
+      <div class="portfolio-actions">
+        <a class="portfolio-button portfolio-button--primary" href="<%= url_for('/projects/') %>" data-pressable>探索项目 <span aria-hidden="true">→</span></a>
+        <a class="portfolio-button portfolio-button--secondary" href="<%= url_for('/blog/') %>" data-pressable>阅读文章</a>
+      </div>
+      <p class="portfolio-hero__role">AI Application Developer <span>·</span> Full Stack Developer</p>
+    </div>
+
+    <aside class="hero-product" aria-label="当前创作方向" data-float-card>
+      <div class="hero-product__chrome">
+        <span class="hero-product__orb" aria-hidden="true">Z</span>
+        <div><strong>Product Studio</strong><small>Ideas → Useful software</small></div>
+        <span class="live-badge"><i></i> Live</span>
+      </div>
+      <div class="hero-product__canvas">
+        <div class="hero-product__headline"><small>Current focus</small><strong>Thoughtful AI<br>for everyday work.</strong></div>
+        <div class="hero-product__modules" aria-hidden="true">
+          <span><i>01</i> Observe</span><span><i>02</i> Prototype</span><span><i>03</i> Refine</span>
+        </div>
+      </div>
+      <div class="hero-product__dock">
+        <span><strong><%= (page.projects || []).length %></strong> 产品实践</span>
+        <span><strong><%= page.articleCount || latestPosts.length %></strong> 篇文章</span>
+        <a href="<%= githubUrl %>" target="_blank" rel="noopener" data-pressable>GitHub ↗</a>
+      </div>
+    </aside>
+  </section>
+
+  <section class="portfolio-section featured-section" aria-labelledby="featured-projects-title">
+    <div class="section-heading">
+      <div><p class="section-kicker">Selected case studies</p><h2 id="featured-projects-title">不只展示结果，<br>也展示如何抵达。</h2></div>
+      <p>这里不是一排项目名称，而是我如何理解问题、建立业务流程，并把产品交付到可使用状态的案例。</p>
+    </div>
+
+    <% if (flagshipProject) { var flagshipUrl = url_for('/projects/' + flagshipProject.slug + '/'); %>
+      <article class="flagship-case">
+        <a class="flagship-case__visual" href="<%= flagshipUrl %>" aria-label="查看 <%= flagshipProject.name %> 完整案例">
+          <%- partial('_partials/portfolio/project-visual', { project: flagshipProject }) %>
+          <span class="case-visual-caption"><i></i> 已交付的真实业务系统</span>
+        </a>
+        <div class="flagship-case__story">
+          <div class="project-card__meta"><span class="project-status project-status--<%= flagshipProject.status %>"><span></span><%= flagshipProject.status %></span><span>旗舰案例 · 01</span></div>
+          <p class="case-overline">从分散操作到统一工作流</p>
+          <h3><a href="<%= flagshipUrl %>"><%= flagshipProject.name %></a></h3>
+          <p class="case-lead"><%= flagshipProject.intro %></p>
+
+          <dl class="case-facts">
+            <div><dt>我的角色</dt><dd><%= flagshipProject.role %></dd></div>
+            <div><dt>交付结果</dt><dd><%= flagshipProject.outcome %></dd></div>
+          </dl>
+
+          <div class="case-flow" aria-label="核心业务流程">
+            <% (flagshipProject.scope || []).forEach(function(item, index) { %>
+              <span><i><%= String(index + 1).padStart(2, '0') %></i><%= item %></span>
+            <% }) %>
+          </div>
+
+          <blockquote class="case-decision"><span>关键判断</span><p><%= flagshipProject.decision %></p></blockquote>
+          <a class="text-link text-link--large" href="<%= flagshipUrl %>">阅读完整案例 <span aria-hidden="true">→</span></a>
+        </div>
+      </article>
+    <% } %>
+
+    <div class="case-study-heading"><p class="section-kicker">More case studies</p><h3>另外两个正在推进的核心方向。</h3></div>
+    <div class="case-study-grid">
+      <% caseStudyProjects.forEach(function(project, index) { var detailUrl = url_for('/projects/' + project.slug + '/'); %>
+        <article class="case-study-card">
+          <a class="case-study-card__visual" href="<%= detailUrl %>" aria-label="查看 <%= project.name %> 项目详情"><%- partial('_partials/portfolio/project-visual', { project: project }) %></a>
+          <div class="case-study-card__body">
+            <div class="project-card__meta"><span class="project-status project-status--<%= project.status %>"><span></span><%= project.status %></span><span>案例 0<%= index + 2 %></span></div>
+            <h3><a href="<%= detailUrl %>"><%= project.name %></a></h3>
+            <p class="case-study-card__description"><%= project.description %></p>
+            <div class="case-study-card__evidence"><span>已经做到</span><p><%= project.outcome %></p></div>
+            <div class="case-study-card__evidence"><span>我的判断</span><p><%= project.decision %></p></div>
+            <a class="text-link" href="<%= detailUrl %>">查看过程与功能 <span aria-hidden="true">→</span></a>
+          </div>
+        </article>
+      <% }) %>
+    </div>
+
+    <div class="experiment-shelf">
+      <div class="experiment-shelf__intro"><p class="section-kicker">Product experiments</p><h3>小规模验证，<br>清楚标注成熟度。</h3><p>这些项目用于验证一个具体交互或产品假设，不与已上线案例混在同一层级。</p></div>
+      <div class="experiment-list">
+        <% experimentProjects.forEach(function(project) { var detailUrl = url_for('/projects/' + project.slug + '/'); %>
+          <a class="experiment-item" href="<%= detailUrl %>">
+            <span class="experiment-item__mark experiment-item__mark--<%= project.accent %>"><%= project.name.replace(/\s+/g, '').slice(0, 1) %></span>
+            <span class="experiment-item__copy"><strong><%= project.name %></strong><small><%= project.outcome %></small></span>
+            <span class="experiment-item__status"><%= project.status %></span><i aria-hidden="true">↗</i>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+    <div class="section-more"><a class="portfolio-button portfolio-button--secondary" href="<%= url_for('/projects/') %>" data-pressable>浏览全部项目 <span aria-hidden="true">→</span></a></div>
+  </section>
+
+  <section class="portfolio-section tech-section" aria-labelledby="tech-stack-title">
+    <div class="section-heading section-heading--centered">
+      <div><p class="section-kicker">Capabilities</p><h2 id="tech-stack-title">一套完整的创造工具。</h2></div>
+      <p>技术应该隐身在体验之后，让想法更快成为可使用、可持续的产品。</p>
+    </div>
+    <div class="stack-grid">
+      <% stacks.forEach(function(group) { %>
+        <article class="stack-group" data-float-card>
+          <span class="stack-group__symbol" aria-hidden="true"><%= group.symbol %></span>
+          <h3><%= group.name %></h3><p><%= group.description %></p>
+          <div class="tag-list"><% group.items.forEach(function(item) { %><span><%= item %></span><% }) %></div>
+        </article>
+      <% }) %>
+    </div>
+  </section>
+
+  <section class="portfolio-section reading-section" aria-labelledby="reading-topics-title">
+    <div class="section-heading">
+      <div><p class="section-kicker">Reading notes</p><h2 id="reading-topics-title">读过的书，<br>按主题整理。</h2></div>
+      <p><%= page.readingCount || 0 %> 篇读书笔记，分成 <%= readingTopics.length %> 个主题。沿着感兴趣的方向进入，而不是在一长串书名里寻找。</p>
+    </div>
+    <div class="reading-topic-grid">
+      <% readingTopics.forEach(function(topic) { %>
+        <a class="reading-topic" href="<%= url_for(topic.path) %>" data-pressable>
+          <span class="reading-topic__symbol" aria-hidden="true"><%= topic.symbol %></span>
+          <span class="reading-topic__copy"><strong><%= topic.name %></strong><small><%= topic.description %></small></span>
+          <span class="reading-topic__count"><strong><%= topic.count %></strong><small>篇笔记</small></span>
+          <i aria-hidden="true">→</i>
+        </a>
+      <% }) %>
+    </div>
+    <div class="section-more"><a class="portfolio-button portfolio-button--secondary" href="<%= url_for('/reading/') %>" data-pressable>进入读书专题 <span aria-hidden="true">→</span></a></div>
+  </section>
+
+  <section class="portfolio-section latest-section" aria-labelledby="latest-posts-title">
+    <div class="section-heading">
+      <div><p class="section-kicker">Articles & thinking</p><h2 id="latest-posts-title">写下实践，<br>沉淀判断。</h2></div>
+      <p>这里仅展示原创文章，记录产品实践、技术判断与实际开发过程。读书笔记已经独立整理。</p>
+    </div>
+    <div class="latest-post-list">
+      <% latestPosts.forEach(function(post, index) { %>
+        <article class="latest-post">
+          <div class="latest-post__meta"><time datetime="<%= full_date(post.date, 'YYYY-MM-DD') %>"><%= date(post.date, config.date_format) %></time><span><%- portfolio_categories(post) %></span></div>
+          <h3><a href="<%= url_for(post.path) %>"><%= post.title %></a></h3>
+          <p><%= portfolio_excerpt(post) %></p>
+          <a class="latest-post__arrow" href="<%= url_for(post.path) %>" aria-label="阅读 <%= post.title %>" data-pressable>→</a>
+        </article>
+      <% }) %>
+    </div>
+    <div class="section-more"><a class="text-link text-link--large" href="<%= url_for('/blog/') %>">查看全部文章 <span aria-hidden="true">→</span></a></div>
+  </section>
+
+  <section class="portfolio-invitation" aria-labelledby="invitation-title">
+    <p class="section-kicker">Build something useful</p>
+    <h2 id="invitation-title">好想法，值得被做出来。</h2>
+    <p>如果你也在解决一个真实而具体的问题，欢迎来看看我的工作，或者聊聊你的想法。</p>
+    <div class="portfolio-actions">
+      <a class="portfolio-button portfolio-button--primary" href="<%= githubUrl %>" target="_blank" rel="noopener" data-pressable>在 GitHub 找到我 ↗</a>
+      <a class="portfolio-button portfolio-button--secondary" href="<%= url_for('/about/') %>" data-pressable>了解更多</a>
+    </div>
+  </section>
+</div>

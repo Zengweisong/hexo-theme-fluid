@@ -1,0 +1,34 @@
+<%
+var hasCover = Boolean(project.cover);
+var initials = project.name.replace(/\s+/g, '').slice(0, 2);
+var scope = project.scope || [];
+%>
+<div class="project-visual project-visual--<%= project.accent %>">
+  <% if (hasCover) { %>
+    <img src="<%= url_for(project.cover) %>" alt="<%= project.name %> 项目封面" loading="lazy" data-project-image>
+  <% } %>
+  <div class="project-placeholder <%= hasCover ? 'project-placeholder--fallback' : '' %>" aria-hidden="true">
+    <div class="project-placeholder__topbar">
+      <span aria-hidden="true"></span>
+      <small><%= project.name %></small>
+      <i aria-hidden="true">•••</i>
+    </div>
+    <div class="project-placeholder__canvas <%= scope.length ? 'project-placeholder__canvas--product' : '' %>">
+      <% if (scope.length) { %>
+        <div class="product-preview">
+          <aside class="product-preview__rail"><b><%= initials.slice(0, 1) %></b><i></i><i></i><i></i></aside>
+          <div class="product-preview__main">
+            <div class="product-preview__heading"><span><small><%= (project.category || []).join(' · ') %></small><strong><%= project.name %></strong></span><i>•••</i></div>
+            <div class="product-preview__metrics"><span><small>STATUS</small><strong><%= project.status %></strong></span><span><small>MODULES</small><strong><%= String(scope.length).padStart(2, '0') %></strong></span></div>
+            <div class="product-preview__rows"><% scope.slice(0, 3).forEach(function(item, index) { %><span><i><%= String(index + 1).padStart(2, '0') %></i><b><%= item %></b><em></em></span><% }) %></div>
+          </div>
+        </div>
+      <% } else { %>
+        <span class="project-placeholder__eyebrow"><%= (project.category || []).join(' · ') %></span>
+        <strong><%= initials %></strong>
+        <span class="project-placeholder__name"><%= project.name %></span>
+        <span class="project-placeholder__hint">Open project <i>→</i></span>
+      <% } %>
+    </div>
+  </div>
+</div>

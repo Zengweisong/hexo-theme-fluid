@@ -22,5 +22,8 @@
 <% } %>
 
 <% if (theme.custom_css) { %>
-  <%- css(theme.custom_css) %>
+  <% var customCss = Array.isArray(theme.custom_css) ? theme.custom_css : [theme.custom_css] %>
+  <% customCss.forEach(function(asset) { %>
+    <link rel="stylesheet" href="<%= versioned_asset(typeof asset === 'string' ? asset : asset.href) %>">
+  <% }) %>
 <% } %>

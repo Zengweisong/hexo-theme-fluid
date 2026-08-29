@@ -1,6 +1,7 @@
 <%
 var banner_img_height = parseFloat(page.banner_img_height || theme.index.banner_img_height)
 var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.default ? theme.dark_mode.default : ''
+var bodyLayout = page.layout || (is_post() ? 'post' : is_archive() ? 'archive' : is_category() ? 'category' : is_tag() ? 'tag' : is_home() ? 'index' : 'page')
 %>
 
 <!DOCTYPE html>
@@ -8,7 +9,7 @@ var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.d
 
 <%- partial('_partials/head.ejs') %>
 
-<body>
+<body class="layout-<%= bodyLayout %>">
   <%- inject_point('bodyBegin') %>
 
   <header>
@@ -17,6 +18,8 @@ var colorSchema = theme.dark_mode && theme.dark_mode.enable && theme.dark_mode.d
 
   <main>
     <% if(is_post() || page.layout === '404') { %>
+      <%- body %>
+    <% } else if (['portfolio-home', 'projects', 'project-detail', 'mindcare-exhibition'].includes(page.layout)) { %>
       <%- body %>
     <% } else { %>
       <div class="container nopadding-x-md">

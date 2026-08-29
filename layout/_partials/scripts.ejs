@@ -23,7 +23,10 @@
 <% page.script_snippets = [] %>
 
 <% if (theme.custom_js) { %>
-  <%- js(theme.custom_js) %>
+  <% var customJs = Array.isArray(theme.custom_js) ? theme.custom_js : [theme.custom_js] %>
+  <% customJs.forEach(function(asset) { %>
+    <script src="<%= versioned_asset(typeof asset === 'string' ? asset : asset.src) %>"></script>
+  <% }) %>
 <% } %>
 
 <!-- 主题的启动项，将它保持在最底部 -->

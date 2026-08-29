@@ -1,0 +1,33 @@
+<%
+page.banner_img_height = 0;
+var projects = page.projects || [];
+var filters = [
+  { id: 'all', label: '全部' },
+  { id: 'ai', label: 'AI' },
+  { id: 'web', label: 'Web' },
+  { id: 'mobile', label: 'Mobile' },
+  { id: 'desktop', label: 'Desktop' },
+  { id: 'tools', label: 'Tools' }
+];
+%>
+<div class="portfolio-shell projects-page">
+  <header class="inner-hero">
+    <p class="section-kicker">Work archive</p>
+    <h1>做过的产品，<br><em>解决的问题。</em></h1>
+    <p>这里收录我在 AI、Web、移动端、桌面端和自动化方向的产品实践。每一项都从一个真实需求开始。</p>
+    <div class="project-count"><strong><%= projects.length %></strong><span>个持续迭代的<br>产品与实验</span></div>
+  </header>
+
+  <nav class="project-filters material-control" aria-label="项目筛选">
+    <% filters.forEach(function(filter, index) { %>
+      <button type="button" class="project-filter <%= index === 0 ? 'is-active' : '' %>" data-project-filter="<%= filter.id %>" aria-pressed="<%= index === 0 ? 'true' : 'false' %>" data-pressable><%= filter.label %></button>
+    <% }) %>
+  </nav>
+
+  <div class="project-grid" data-project-grid>
+    <% projects.forEach(function(project, index) { %>
+      <%- partial('_partials/portfolio/project-card', { project: project, featured: false, index: index }) %>
+    <% }) %>
+  </div>
+  <p class="project-empty" data-project-empty hidden>这个分类暂时还没有项目。</p>
+</div>

@@ -9,6 +9,8 @@ var challenge = process.find(function(item) { return /问题|挑战|难点/.test
 var solution = process.find(function(item) { return /解决|应对|优化/.test(item.title || ''); });
 var nextStep = process.find(function(item) { return /后续|下一步|计划/.test(item.title || ''); });
 var caseNumber = String(page.projectIndex || 1).padStart(2, '0');
+var mediaOrientation = project.media_orientation === 'portrait' ? 'portrait' : 'landscape';
+var mediaRatio = project.media_ratio || '16 / 9';
 %>
 <article class="portfolio-shell project-detail">
   <nav class="project-breadcrumb material-control" aria-label="面包屑">
@@ -35,7 +37,7 @@ var caseNumber = String(page.projectIndex || 1).padStart(2, '0');
         </div>
       <% } %>
     </div>
-    <div class="project-detail__visual" data-float-card><%- partial('_partials/portfolio/project-visual', { project: project }) %></div>
+    <div class="project-detail__visual project-detail__visual--<%= mediaOrientation %>" data-float-card><%- partial('_partials/portfolio/project-visual', { project: project }) %></div>
   </header>
 
   <section class="case-summary" aria-label="项目摘要">
@@ -63,7 +65,7 @@ var caseNumber = String(page.projectIndex || 1).padStart(2, '0');
         <p class="section-label">05 / PRODUCT</p><h2><%= project.screenshots.length > 0 ? '运行界面' : '产品结构' %></h2>
         <% if (project.screenshots.length > 0) { %>
           <div class="screenshot-grid <%= project.screenshots.length === 1 ? 'screenshot-grid--single' : '' %>">
-            <% project.screenshots.forEach(function(image, index) { %><button class="screenshot-button" type="button" data-lightbox-image="<%= url_for(image) %>" data-lightbox-alt="<%= project.name %> 截图 <%= index + 1 %>" data-pressable><img src="<%= url_for(image) %>" alt="<%= project.name %> 截图 <%= index + 1 %>" loading="lazy"></button><% }) %>
+            <% project.screenshots.forEach(function(image, index) { %><button class="screenshot-button screenshot-button--<%= mediaOrientation %>" style="--project-media-ratio: <%= mediaRatio %>" type="button" data-lightbox-image="<%= url_for(image) %>" data-lightbox-alt="<%= project.name %> 截图 <%= index + 1 %>" data-pressable><img src="<%= url_for(image) %>" alt="<%= project.name %> 截图 <%= index + 1 %>" loading="lazy"></button><% }) %>
           </div>
         <% } else { %>
           <div class="product-architecture">

@@ -1,6 +1,6 @@
 {
   "name": "hexo-theme-fluid",
-  "version": "1.9.8",
+  "version": "1.9.9",
   "description": "An elegant Material-Design theme for Hexo.",
   "main": "package.json",
   "files": [
@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/fluid-dev/hexo-theme-fluid/issues"
   },
-  "homepage": "https://hexo.fluid-dev.com/docs",
+  "homepage": "https://fluid.ist/docs",
   "engines": {
     "node": ">=8.10.0"
   },

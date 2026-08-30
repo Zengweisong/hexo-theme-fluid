@@ -3,10 +3,17 @@ var detailUrl = url_for('/projects/' + project.slug + '/');
 var filters = project_filter_group(project);
 var techList = (project.tech || []).slice(0, featured ? 4 : 5);
 var cardIndex = typeof index === 'number' ? String(index + 1).padStart(2, '0') : '';
+var cardVariant = project.card_variant === 'mobile-feature' ? 'mobile-feature' : '';
 %>
-<article class="project-card <%= featured ? 'project-card--featured' : '' %>" data-project-card data-groups="<%= filters %>" data-float-card>
+<article class="project-card <%= featured ? 'project-card--featured' : '' %> <%= cardVariant ? 'project-card--' + cardVariant : '' %>" data-project-card data-groups="<%= filters %>" data-float-card>
   <a class="project-card__visual-link" href="<%= detailUrl %>" aria-label="查看 <%= project.name %> 项目详情">
     <%- partial('project-visual', { project: project }) %>
+    <% if (cardVariant === 'mobile-feature' && project.cover) { %>
+      <span class="project-card__detail-shot" aria-hidden="true">
+        <img src="<%= url_for(project.cover) %>" alt="" loading="lazy" decoding="async">
+        <small>界面细节</small>
+      </span>
+    <% } %>
   </a>
   <div class="project-card__body">
     <div class="project-card__meta">

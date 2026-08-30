@@ -2,8 +2,10 @@
 var hasCover = Boolean(project.cover);
 var initials = project.name.replace(/\s+/g, '').slice(0, 2);
 var scope = project.scope || [];
+var mediaOrientation = project.media_orientation === 'portrait' ? 'portrait' : 'landscape';
+var mediaRatio = project.media_ratio || '16 / 9';
 %>
-<div class="project-visual project-visual--<%= project.accent %>">
+<div class="project-visual project-visual--<%= project.accent %> project-visual--<%= mediaOrientation %>" style="--project-media-ratio: <%= mediaRatio %>">
   <% if (hasCover) { %>
     <img src="<%= url_for(project.cover) %>" alt="<%= project.name %> 项目封面" loading="lazy" data-project-image>
   <% } %>

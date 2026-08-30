@@ -1,0 +1,108 @@
+<%
+page.banner_img_height = 0;
+var project = page.project;
+var siteUrl = project.demo || 'https://vghk.org';
+var rooms = [
+  { src: 'https://vghk.org/rooms/room-sunny.jpg', label: 'ROOM 01', title: '明亮而安定' },
+  { src: 'https://vghk.org/rooms/room-cozy.jpg', label: 'ROOM 02', title: '让表达自然发生' },
+  { src: 'https://vghk.org/rooms/room-3-cozy.png', label: 'ROOM 03', title: '为同行留出空间' }
+];
+%>
+
+<article class="vessel-exhibition">
+  <nav class="vessel-exhibition__back" aria-label="页面导航">
+    <a href="<%= url_for('/projects/') %>">← 返回项目</a>
+    <span>VESSEL OF GRACE · 2026</span>
+  </nav>
+
+  <header class="vessel-hero">
+    <img class="vessel-hero__image" src="<%= rooms[0].src %>" alt="恩皿中心明亮舒适的治疗空间" fetchpriority="high" referrerpolicy="no-referrer">
+    <div class="vessel-hero__veil" aria-hidden="true"></div>
+    <div class="vessel-hero__topline">
+      <a class="vessel-brand" href="<%= siteUrl %>" target="_blank" rel="noopener">
+        <img src="https://vghk.org/logo.png" alt="恩皿中心标志" referrerpolicy="no-referrer">
+        <span><strong>恩皿中心</strong><small>VESSEL OF GRACE</small></span>
+      </a>
+      <div class="vessel-hero__actions">
+        <% if (project.github) { %>
+          <a class="vessel-visit" href="<%= project.github %>" target="_blank" rel="noopener" data-pressable>GitHub <span aria-hidden="true">↗</span></a>
+        <% } %>
+        <a class="vessel-visit" href="<%= siteUrl %>" target="_blank" rel="noopener" data-pressable>进入官网 <span aria-hidden="true">↗</span></a>
+      </div>
+    </div>
+    <div class="vessel-hero__copy" data-vessel-reveal>
+      <p>JORDAN · HONG KONG</p>
+      <h1>让每个生命，<br>在关系中被看见。</h1>
+      <span>一个关于安全、尊重与专业陪伴的空间。</span>
+    </div>
+    <div class="vessel-hero__index" aria-hidden="true"><span>01</span><i></i><span>05</span></div>
+  </header>
+
+  <section class="vessel-manifesto" data-vessel-reveal>
+    <p class="vessel-eyebrow">VESSEL / 容器</p>
+    <div class="vessel-manifesto__grid">
+      <h2>盛载情绪，<br>也承托成长。</h2>
+      <div>
+        <p>恩皿相信，改变不必被催促。孩子、青年、成人与照顾者，都值得在一个安静、可信任的关系里，慢慢整理自己的经验。</p>
+        <p>这里提供的不只是一间治疗室，而是一种被认真聆听、被温柔接住的可能。</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="vessel-care" aria-labelledby="vessel-care-title">
+    <div class="vessel-section-heading" data-vessel-reveal>
+      <p class="vessel-eyebrow">WAYS OF CARE</p>
+      <h2 id="vessel-care-title">陪伴，以不同方式发生。</h2>
+    </div>
+    <ol class="vessel-care__list">
+      <li data-vessel-reveal><span>01</span><h3>儿童心理支持</h3><p>让孩子通过适合自己的语言表达感受，在稳定关系中建立安全感。</p></li>
+      <li data-vessel-reveal><span>02</span><h3>游戏治疗</h3><p>以游戏作为理解孩子经验的媒介，陪伴他们探索、修复与成长。</p></li>
+      <li data-vessel-reveal><span>03</span><h3>家长与照顾者同行</h3><p>支持照顾者理解关系里的需要，也照顾那个一直努力支撑家庭的自己。</p></li>
+    </ol>
+  </section>
+
+  <section class="vessel-rooms" aria-labelledby="vessel-rooms-title">
+    <div class="vessel-section-heading vessel-section-heading--rooms" data-vessel-reveal>
+      <div><p class="vessel-eyebrow">THE ROOMS</p><h2 id="vessel-rooms-title">空间会说话。</h2></div>
+      <p>光线、材质和距离都经过克制的安排，让进入房间的人不需要马上解释自己。</p>
+    </div>
+    <div class="vessel-rooms__mosaic">
+      <% rooms.forEach(function(room, index) { %>
+        <figure class="vessel-room vessel-room--<%= index + 1 %>" data-vessel-reveal>
+          <img src="<%= room.src %>" alt="<%= room.title %>的恩皿中心治疗空间" loading="lazy" referrerpolicy="no-referrer">
+          <figcaption><span><%= room.label %></span><strong><%= room.title %></strong></figcaption>
+        </figure>
+      <% }) %>
+    </div>
+  </section>
+
+  <section class="vessel-digital" data-vessel-reveal>
+    <div class="vessel-digital__copy">
+      <p class="vessel-eyebrow">DIGITAL EXPERIENCE</p>
+      <h2>把复杂留在系统里，<br>把清晰留给来访者。</h2>
+      <p>从了解服务、认识治疗师，到选择房间与提交预约，数字体验被整理成一条安静而明确的路径。后台则连接订单、凭证、通知与日常运营，让中心把更多注意力留给真正需要陪伴的人。</p>
+    </div>
+    <div class="vessel-digital__flow" aria-label="恩皿中心数字体验流程">
+      <span><i>01</i>了解</span><b aria-hidden="true">→</b>
+      <span><i>02</i>选择</span><b aria-hidden="true">→</b>
+      <span><i>03</i>预约</span><b aria-hidden="true">→</b>
+      <span><i>04</i>同行</span>
+    </div>
+    <% if (project.screenshots && project.screenshots.length) { %>
+      <a id="vessel-live-site" class="vessel-digital__screen" href="<%= siteUrl %>" target="_blank" rel="noopener" data-pressable>
+        <img src="<%= url_for(project.screenshots[0]) %>" alt="<%= project.name %> 官方网站实际运行页面" loading="lazy">
+        <span><small>LIVE WEBSITE</small><strong>查看真实运行页面 ↗</strong></span>
+      </a>
+    <% } %>
+  </section>
+
+  <footer id="visit-vessel" class="vessel-finale">
+    <div data-vessel-reveal>
+      <p class="vessel-eyebrow">CONTINUE THE JOURNEY</p>
+      <h2>这里是一段序言。<br>真正的故事，在恩皿继续。</h2>
+      <a href="<%= siteUrl %>" target="_blank" rel="noopener" data-pressable>
+        <span>前往恩皿中心</span><small>vghk.org ↗</small>
+      </a>
+    </div>
+  </footer>
+</article>
